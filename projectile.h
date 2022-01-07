@@ -14,6 +14,8 @@ public:
     void setDamage(int newDmg);
     void setDmgRadius(int newRadius);
 
+    void setType(int type);
+
 private:
     int damage;
     int dmgRadius;

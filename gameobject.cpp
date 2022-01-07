@@ -60,15 +60,13 @@ void GameObject::setPos(QVector2D newPos){
 }
 
 
-void GameObject::render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program/*,GeometryEngine *geometries*/, QMatrix4x4 projection){
+void GameObject::render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, QMatrix4x4 projection){
     //Transform newTransform = transform.combineTransforms(globalTransform);
     QMatrix4x4 newTransform = globalTransform * transform.getTransform();
     program->setUniformValue("mvp_matrix", projection * newTransform);
 
-    /*if(!isLink)
-        geometries->drawSphere(program);
 
     for(unsigned int i = 0; i < children.size(); i++){
-        children[i]->render(newTransform, program, geometries, projection);
-    }*/
+        children[i]->render(newTransform, program, projection);
+    }
 }

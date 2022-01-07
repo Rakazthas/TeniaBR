@@ -9,8 +9,10 @@ public:
     Worm();
 
     int getHp();
-
     void setHp(int newHP);
+
+
+    void render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, QMatrix4x4 projection);
 
 private:
     int hp;

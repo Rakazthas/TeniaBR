@@ -10,23 +10,34 @@ CONFIG += c++11
 
 SOURCES += \
     gameobject.cpp \
+    geometryengine.cpp \
     main.cpp \
-    mainwindow.cpp \
+    mainwidget.cpp \
     projectile.cpp \
     transform.cpp \
+    weapon.cpp \
     worm.cpp
 
 HEADERS += \
     gameobject.h \
-    mainwindow.h \
+    geometryengine.h \
+    mainwidget.h \
     projectile.h \
     transform.h \
+    weapon.h \
     worm.h
 
-FORMS += \
-    mainwindow.ui
+FORMS +=
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    fshader.glsl \
+    vshader.glsl
+
+RESOURCES += \
+    shaders.qrc \
+    textures.qrc

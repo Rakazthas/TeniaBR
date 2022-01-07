@@ -8,6 +8,8 @@
 #include <QOpenGLShaderProgram>
 
 #include "transform.h"
+#include "geometryengine.h"
+
 
 class GameObject
 {
@@ -41,7 +43,7 @@ public:
 
 
 
-    void render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, /*GeometryEngine *geometries,*/ QMatrix4x4 projection);
+    void render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, QMatrix4x4 projection);
     void updateTransform();
 
 protected:
@@ -58,7 +60,7 @@ protected:
     std::vector<QVector3D> vertices;
     std::vector<std::vector<int>> faces;
 
-
+    int category;
 
     std::vector<GameObject*> children;
 };

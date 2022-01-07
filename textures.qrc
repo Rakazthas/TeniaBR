@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>base_sprite.png</file>
+				<file>launcher.png</file>
+    </qresource>
+</RCC>
