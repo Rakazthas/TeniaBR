@@ -25,6 +25,8 @@ void Weapon::render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, Q
     GeometryEngine *geometries = new GeometryEngine(category); //ajouter constructeurs specifiques worms/objet/map
     geometries->drawWormGeometry(program);
 
+    updateBoundingBox(newTransform);
+
     for(unsigned int i = 0; i < children.size(); i++){
         children[i]->render(newTransform, program, projection);
     }
