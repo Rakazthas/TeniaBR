@@ -61,7 +61,6 @@ void GameObject::setPos(QVector2D newPos){
 
 
 void GameObject::render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, QMatrix4x4 projection){
-    //Transform newTransform = transform.combineTransforms(globalTransform);
     QMatrix4x4 newTransform = globalTransform * transform.getTransform();
     program->setUniformValue("mvp_matrix", projection * newTransform);
 

@@ -141,7 +141,7 @@ void MainWidget::resizeGL(int w, int h)
     qreal aspect = qreal(w) / qreal(h ? h : 1);
 
     // Set near plane to 3.0, far plane to 7.0, field of view 45 degrees
-    const qreal zNear = 2.0, zFar = 10.0, fov = 45.0;
+    const qreal zNear = 2.0, zFar = 40.0, fov = 45.0;
 
     // Reset projection
     projection.setToIdentity();
@@ -163,9 +163,9 @@ void MainWidget::paintGL()
 //! [6]
     // Calculate model view transformation
     QMatrix4x4 matrix;
-    matrix.translate(0.0, 0.0, -5.0);
-    matrix.rotate(135,1,0,0);
-    matrix.rotate(rotation);
+    matrix.translate(0.0, 0.0, -20.0);
+    //matrix.rotate(90,1,0,0);
+    //matrix.rotate(rotation);
     matrix.scale(QVector3D(scale,scale,scale));
 
 
@@ -188,7 +188,7 @@ void MainWidget::paintGL()
     Transform testLauncherTransform;
 
     testLauncher.setType(1);
-    testLauncherTransform.setRotationAngAxis(20, QVector3D(0,1,0));
+    testLauncherTransform.setRotationAngAxis(20, QVector3D(0,0,1));
 
     testWorm.setTransform(testWormTransform);
     testLauncher.setTransform(testLauncherTransform);
@@ -196,6 +196,6 @@ void MainWidget::paintGL()
     testWorm.addChild(&testLauncher);
 
     testWorm.render(matrix, &program, projection);
-
+    //testLauncher.render(matrix, &program, projection);
 
 }

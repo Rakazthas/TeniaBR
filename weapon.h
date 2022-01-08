@@ -3,6 +3,7 @@
 
 #include "gameobject.h"
 
+
 class Weapon : public GameObject
 {
 public:
@@ -10,7 +11,7 @@ public:
 
     void setType(int type);
 
-    void render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, QMatrix4x4 projection);
+    virtual void render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, QMatrix4x4 projection);
 
 };
 

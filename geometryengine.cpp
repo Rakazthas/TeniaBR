@@ -29,10 +29,10 @@ void GeometryEngine::initWormGeometry(){
 
     unsigned int vertexNumber = 4;
     VertexData vertices[] = {
-        {QVector3D(-1.0f, 1.0f,  -1.0f), QVector2D(0.0f, 0.0f)},  // v0
-        {QVector3D( 1.0f, 1.0f,  -1.0f), QVector2D(1.0f, 0.0f)}, // v1
-        {QVector3D(-1.0f,  1.0f,  1.0f), QVector2D(0.0f, 1.0f)},  // v2
-        {QVector3D( 1.0f,  1.0f,  1.0f), QVector2D(1.0f, 1.0f)}
+        {QVector3D(-1.0f,  1.0f,  0.0f), QVector2D(0.0f, 0.0f)},  // v0
+        {QVector3D( 1.0f,  1.0f,  0.0f), QVector2D(1.0f, 0.0f)}, // v1
+        {QVector3D(-1.0f, -1.0f,  0.0f), QVector2D(0.0f, 1.0f)},  // v2
+        {QVector3D( 1.0f, -1.0f,  0.0f), QVector2D(1.0f, 1.0f)}
     };
 
     unsigned int indexCount = 5;
@@ -70,10 +70,10 @@ void GeometryEngine::drawWormGeometry(QOpenGLShaderProgram *program){
 void GeometryEngine::initLauncherGeometry(){
     unsigned int vertexNumber = 4;
     VertexData vertices[] = {
-        {QVector3D(-1.0f, 1.0f,  -0.5f), QVector2D(0.0f, 0.0f)},  // v0
-        {QVector3D( 1.0f, 1.0f,  -0.5f), QVector2D(1.0f, 0.0f)}, // v1
-        {QVector3D(-1.0f,  1.0f,  1.0f), QVector2D(0.0f, 1.0f)},  // v2
-        {QVector3D( 1.0f,  1.0f,  1.0f), QVector2D(1.0f, 1.0f)}
+        {QVector3D( 0.1f, -0.15f,  0.5f), QVector2D(0.0f, 0.0f)},  // v0
+        {QVector3D( 0.8f, -0.15f,  0.5f), QVector2D(1.0f, 0.0f)}, // v1
+        {QVector3D( 0.1f, -0.65f,  0.5f), QVector2D(0.0f, 1.0f)},  // v2
+        {QVector3D( 0.8f, -0.65f,  0.5f), QVector2D(1.0f, 1.0f)}
     };
 
     unsigned int indexCount = 5;

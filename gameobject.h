@@ -43,7 +43,7 @@ public:
 
 
 
-    void render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, QMatrix4x4 projection);
+    virtual void render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, QMatrix4x4 projection);
     void updateTransform();
 
 protected:
