@@ -52,6 +52,12 @@
 #define MAINWIDGET_H
 
 #include "geometryengine.h"
+#include "gameobject.h"
+#include "worm.h"
+#include "weapon.h"
+#include "projectile.h"
+#include "transform.h"
+#include "map.h"
 
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
@@ -86,6 +92,7 @@ protected:
     void initShaders();
     void initTextures();
 
+
 private:
     QBasicTimer timer;
     QOpenGLShaderProgram program;
@@ -106,7 +113,13 @@ private:
     qreal angularSpeed;
     QQuaternion rotation;
 
+    std::vector<GameObject*> objects;
+    GameObject *currWorm;
+
+
     float scale = 1;
+    float deltaT = 0.01;
+
 };
 
 #endif // MAINWIDGET_H

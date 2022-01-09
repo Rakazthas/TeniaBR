@@ -6,6 +6,7 @@ GameObject::GameObject()
     children = std::vector<GameObject*>();
     transform = Transform();
 
+    movement = QVector2D(0,0);
 
 }
 
@@ -49,6 +50,9 @@ void GameObject::setLink(bool link){
 }
 void GameObject::setPos(QVector2D newPos){
     worldPosition = newPos;
+
+    //todo gerer changement pos si objet enfant (donc pas world coodrinates)
+    transform.setTranslation(QVector3D(worldPosition.x(), worldPosition.y(), 0));
 }
 
 void GameObject::getBoundingBox(QVector2D *upRight, QVector2D *downLeft){
@@ -145,6 +149,17 @@ QMatrix4x4 GameObject::getWorldTransform(){
     }
 }
 
+void GameObject::applyMovement(float time){
+    float translateX, translateY = 0;
+
+    translateX = movement.x()*time;
+    if(AABB[0].y()>0.01){
+        translateY = (-9.81*weight + movement.y())*time;
+    }
+    QVector3D worldMove = QVector3D(translateX, translateY, 0);
+
+    transform.setTranslation(transform.getTranslation()+worldMove);
+}
 
 void GameObject::render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, QMatrix4x4 projection){
     QMatrix4x4 newTransform = globalTransform * transform.getTransform();

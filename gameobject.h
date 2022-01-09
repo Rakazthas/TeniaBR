@@ -45,6 +45,7 @@ public:
     QMatrix4x4 getWorldTransform();
 
 
+    void applyMovement(float time);
 
 
 
@@ -66,6 +67,7 @@ protected:
     GameObject* parent;
 
     Transform transform;
+    QVector2D movement;
 
     int category;
 

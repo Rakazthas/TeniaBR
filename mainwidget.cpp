@@ -2,13 +2,10 @@
 
 #include <QMouseEvent>
 #include <QKeyEvent>
+#include <QDebug>
 
 #include <math.h>
 
-#include "gameobject.h"
-#include "worm.h"
-#include "weapon.h"
-#include "transform.h"
 
 
 MainWidget::MainWidget(QWidget *parent) :
@@ -18,6 +15,27 @@ MainWidget::MainWidget(QWidget *parent) :
     textureLauncher(0),
     angularSpeed(0)
 {
+    objects = std::vector<GameObject*>();
+
+    Transform worm1Transform = Transform();
+    worm1Transform.setTranslation(QVector3D(2.0,0.0,0.0));
+
+    Transform worm2Transform = Transform();
+    worm2Transform.setTranslation(QVector3D(-3.0, 1.0,0.0));
+    worm2Transform.setScale(QVector3D(-1.0,1.0,1.0));
+
+    Transform worm3Transform = Transform();
+    worm3Transform.setTranslation(QVector3D(2.0,1.5,0.0));
+
+    Worm *worm1 = new Worm(worm1Transform);
+    Worm *worm2 = new Worm(worm2Transform);
+    Worm *worm3 = new Worm(worm3Transform);
+
+    objects.push_back(worm1);
+    objects.push_back(worm2);
+    objects.push_back(worm3);
+
+    currWorm = objects[0];
 }
 
 MainWidget::~MainWidget()
@@ -40,27 +58,45 @@ void MainWidget::keyReleaseEvent(QKeyEvent *){
 
 }
 
+
 //! [0]
 
 //! [1]
 void MainWidget::timerEvent(QTimerEvent *)
 {
-    // Decrease angular speed (friction)
-    angularSpeed = 0.8;
-    rotationAxis = QVector3D(0.0,0.0,1.0);
-    // Stop rotation when speed goes below threshold
-    if (angularSpeed < 0.01) {
-        angularSpeed = 0.0;
-    } else {
-        // Update rotation
+    for(unsigned int i = 0; i < objects.size(); i++){
+        objects[i]->applyMovement(deltaT);
 
+        QVector2D pos = objects[i]->getPos();
+        QVector2D downBox, upBox;
+        objects[i]->getBoundingBox(&upBox, &downBox);
 
-        if(scale < 0)
-            scale = 0;
+        if(downBox.y()<0){
+            objects[i]->setPos(QVector2D(pos.x(), pos.y()+(-downBox.y())));
+        }
 
-        // Request an update
-        update();
     }
+
+    for(unsigned int i = 0; i < objects.size(); i++){
+        QVector2D downBoxI, upBoxI;
+        objects[i]->getBoundingBox(&upBoxI, &downBoxI);
+
+        for(unsigned int j = i+1; j < objects.size(); j++){
+            QVector2D downBoxJ, upBoxJ;
+            objects[j]->getBoundingBox(&upBoxJ, &downBoxJ);
+
+            if(downBoxI.x()-upBoxJ.x()<=0 &&
+                    downBoxI.y()-upBoxJ.y()<=0&&
+                    downBoxJ.x()-upBoxI.x()<=0&&
+                    downBoxJ.y()-upBoxI.y()<=0){
+                //collision
+                qWarning() << "Collision entre " << i << "et" << j;
+            }else{
+                qWarning() << "Pas de collision entre " << i << "et" << j;
+            }
+        }
+    }
+    update();
 }
 //! [1]
 
@@ -177,25 +213,8 @@ void MainWidget::paintGL()
     program.setUniformValue("texture", 1);
 
 
-    std::vector<QVector3D> vertices;
-    std::vector<std::vector<int>> faces;
-
-
-    Worm testWorm;
-    Transform testWormTransform;
-
-    Weapon testLauncher;
-    Transform testLauncherTransform;
-
-    testLauncher.setType(1);
-    testLauncherTransform.setRotationAngAxis(20, QVector3D(0,0,1));
-
-    testWorm.setTransform(testWormTransform);
-    testLauncher.setTransform(testLauncherTransform);
-
-    testWorm.addChild(&testLauncher);
-
-    testWorm.render(matrix, &program, projection);
-    //testLauncher.render(matrix, &program, projection);
+    for(unsigned int i = 0; i < objects.size(); i++){
+        objects[i]->render(matrix, &program, projection);
+    }
 
 }
