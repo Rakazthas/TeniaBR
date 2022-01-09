@@ -4,6 +4,33 @@
 Worm::Worm()
 {
     category = 0;
+
+    weight = 1;
+
+    transform = Transform();
+
+    height = 0.5;
+    width = 0.5;
+
+    hp = 20;
+
+    updateBoundingBox();
+}
+
+Worm::Worm(Transform transform)
+{
+    category = 0;
+
+    weight = 1;
+
+    this->transform = transform;
+
+    height = 0.5;
+    width = 0.5;
+
+    hp = 20;
+
+    updateBoundingBox();
 }
 
 

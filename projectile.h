@@ -8,18 +8,19 @@ class Projectile : public GameObject
 {
 public:
     Projectile();
+    Projectile(Transform transform);
 
     int getDamage();
-    int getDmgRadius();
+    float getDmgRadius();
 
     void setDamage(int newDmg);
-    void setDmgRadius(int newRadius);
+    void setDmgRadius(float newRadius);
 
     void setType(int type);
 
 private:
     int damage;
-    int dmgRadius;
+    float dmgRadius;
 
 
 };

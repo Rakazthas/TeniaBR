@@ -8,6 +8,7 @@ class Worm : public GameObject
 {
 public:
     Worm();
+    Worm(Transform transform);
 
     int getHp();
     void setHp(int newHP);

@@ -39,7 +39,10 @@ public:
     void setPos(QVector2D newPos);
 
     void getBoundingBox(QVector2D *upRight, QVector2D *downLeft);
+    void updateBoundingBox();
     void updateBoundingBox(QMatrix4x4 worldTransform);
+
+    QMatrix4x4 getWorldTransform();
 
 
 

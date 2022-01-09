@@ -2,8 +2,38 @@
 
 Weapon::Weapon()
 {
+
+    category = 1;
+
     weight = 0;
     elasticity = 0;
+
+    transform = Transform();
+
+
+
+    height = 0.25f;
+    width = 0.35f;
+
+    updateBoundingBox();
+
+
+}
+
+Weapon::Weapon(Transform transform){
+    category = 1;
+
+    weight = 0;
+    elasticity = 0;
+
+    this->transform = transform;
+
+
+
+    height = 0.25f;
+    width = 0.35f;
+
+    updateBoundingBox();
 }
 
 void Weapon::setType(int type){
@@ -13,6 +43,8 @@ void Weapon::setType(int type){
         category = 3;
     else
         category = type;
+
+    //update width/heigth + box (no collision so not urgent)
 }
 
 void Weapon::render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, QMatrix4x4 projection){

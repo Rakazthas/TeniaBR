@@ -8,6 +8,7 @@ class Weapon : public GameObject
 {
 public:
     Weapon();
+    Weapon(Transform transform);
 
     void setType(int type);
 
