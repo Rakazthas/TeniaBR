@@ -4,5 +4,8 @@
 				<file>launcher.png</file>
 				<file>floor.png</file>
 				<file>rocket.png</file>
+				<file>small_bullet.png</file>
+				<file>grenade.png</file>
+				<file>shotgun.png</file>
     </qresource>
 </RCC>

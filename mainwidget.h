@@ -100,11 +100,10 @@ private:
 
     QOpenGLTexture *textureWorm;
     QOpenGLTexture *textureLauncher;
+    QOpenGLTexture *textureGrenade;
     QOpenGLTexture *textureShotgun;
-    QOpenGLTexture *textureGrenadeH;
     QOpenGLTexture *textureRocket;
     QOpenGLTexture *textureBullet;
-    QOpenGLTexture *textureGrenadeT;
     QOpenGLTexture *textureFloor;
 
     QMatrix4x4 projection;

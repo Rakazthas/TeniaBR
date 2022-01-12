@@ -11,8 +11,8 @@ Projectile::Projectile()
 
 
 
-    height = 0;
-    width =0 ;//TODO update when sprite ok
+    height = 0.15f;
+    width = 0.2f;
 
     updateBoundingBox();
 
@@ -30,9 +30,8 @@ Projectile::Projectile(Transform transform){
 
 
 
-    height = 0;
-    width =0 ;//TODO update when sprite ok
-
+    height = 0.2;
+    width =0.3 ;
     updateBoundingBox();
 
     damage = 3;
@@ -50,14 +49,23 @@ void Projectile::setDmgRadius(float newRadius){
 }
 
 void Projectile::setType(int type){
-    if(type<4)
+    if(type<4){
         category = 4;
-    else if(type>6)
+        height = 0.2;
+        width = 0.3;
+    }
+    else if(type>6){
         category = 6;
-    else
+        height = 0.3;
+        width = 0.3;
+    }
+    else{
         category = type;
+        height = 0.05;
+        width = 0.1;
+    }
 
-    //TODO update size/box/dmg
+    updateBoundingBox();
 }
 
 void Projectile::handleCollision(GameObject *collider){
@@ -78,7 +86,7 @@ void Projectile::render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* progra
 
     program->setUniformValue("texture", category);
 
-    GeometryEngine *geometries = new GeometryEngine(category); //ajouter constructeurs specifiques worms/objet/map
+    GeometryEngine *geometries = new GeometryEngine(category);
     geometries->drawGeometry(program);
 
     for(unsigned int i = 0; i < children.size(); i++){

@@ -15,7 +15,10 @@ public:
 private:
     void initWormGeometry();
     void initLauncherGeometry();
+    void initGrenadeGeometry();
+    void initShotgunGeometry();
     void initRocketGeometry();
+    void initBulletGeometry();
     void initFloorGeometry();
 
     QOpenGLBuffer arrayBuf;

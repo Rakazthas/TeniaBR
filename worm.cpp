@@ -54,7 +54,7 @@ void Worm::render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, QMa
 
     program->setUniformValue("texture", category);
 
-    GeometryEngine *geometries = new GeometryEngine(category); //ajouter constructeurs specifiques worms/objet/map
+    GeometryEngine *geometries = new GeometryEngine(category);
     geometries->drawGeometry(program);
 
     for(unsigned int i = 0; i < children.size(); i++){

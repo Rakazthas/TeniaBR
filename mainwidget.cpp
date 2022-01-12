@@ -13,6 +13,10 @@ MainWidget::MainWidget(QWidget *parent) :
     geometries(0),
     textureWorm(0),
     textureLauncher(0),
+    textureGrenade(0),
+    textureShotgun(0),
+    textureRocket(0),
+    textureBullet(0),
     textureFloor(0),
     angularSpeed(0)
 {
@@ -58,6 +62,10 @@ MainWidget::~MainWidget()
     makeCurrent();
     delete textureWorm;
     delete textureLauncher;
+    delete textureGrenade;
+    delete textureShotgun;
+    delete textureRocket;
+    delete textureBullet;
     delete textureFloor;
     doneCurrent();
 }
@@ -90,7 +98,7 @@ void MainWidget::mouseMoveEvent(QMouseEvent *event){
 }
 
 void MainWidget::mousePressEvent(QMouseEvent *e){
-    if(currProj != nullptr){
+    if(currProj == nullptr){
         QVector2D initPos = currWorm->getPos();
         QVector2D initDir = QVector2D(e->localPos())-initPos;
 
@@ -103,7 +111,7 @@ void MainWidget::mousePressEvent(QMouseEvent *e){
 
         Projectile *proj = new Projectile(initTransform);
         currProj = proj;
-        currProj->setMovement(initDir);
+        currProj->setMovement(initDir/10);
 
         objects.push_back(proj);
 
@@ -169,7 +177,6 @@ void MainWidget::timerEvent(QTimerEvent *)
     QVector2D direction = mousePos-currWorm->getPos();
     QVector2D ref = QVector2D(1,0);
 
-    //float angle = atan2(direction.y(), direction.x());
     float angle = acos(QVector2D::dotProduct(direction, ref)/(direction.length()*ref.length()));
     angle *= 180.0/M_PI;
 
@@ -249,6 +256,26 @@ void MainWidget::initTextures()
     textureLauncher->setMagnificationFilter(QOpenGLTexture::Linear);
     textureLauncher->setWrapMode(QOpenGLTexture::ClampToEdge);
 
+    textureGrenade = new QOpenGLTexture(QImage(":/grenade.png"));
+    textureGrenade->setMinificationFilter(QOpenGLTexture::Nearest);
+    textureGrenade->setMagnificationFilter(QOpenGLTexture::Linear);
+    textureGrenade->setWrapMode(QOpenGLTexture::ClampToEdge);
+
+    textureShotgun = new QOpenGLTexture(QImage(":/shotgun.png"));
+    textureShotgun->setMinificationFilter(QOpenGLTexture::Nearest);
+    textureShotgun->setMagnificationFilter(QOpenGLTexture::Linear);
+    textureShotgun->setWrapMode(QOpenGLTexture::ClampToEdge);
+
+    textureRocket = new QOpenGLTexture(QImage(":/rocket.png"));
+    textureRocket->setMinificationFilter(QOpenGLTexture::Nearest);
+    textureRocket->setMagnificationFilter(QOpenGLTexture::Linear);
+    textureRocket->setWrapMode(QOpenGLTexture::ClampToEdge);
+
+    textureBullet = new QOpenGLTexture(QImage(":/small_bullet.png"));
+    textureBullet->setMinificationFilter(QOpenGLTexture::Nearest);
+    textureBullet->setMagnificationFilter(QOpenGLTexture::Linear);
+    textureBullet->setWrapMode(QOpenGLTexture::ClampToEdge);
+
     textureFloor = new QOpenGLTexture(QImage(":/floor.png"));
     textureFloor->setMinificationFilter(QOpenGLTexture::Nearest);
     textureFloor->setMagnificationFilter(QOpenGLTexture::Linear);
@@ -280,13 +307,18 @@ void MainWidget::paintGL()
 
     textureWorm->bind(0);
     textureLauncher->bind(1);
+    textureGrenade->bind(2);
+    textureShotgun->bind(3);
+    textureRocket->bind(4);
+    textureGrenade->bind(5);
+    textureBullet->bind(6);
     textureFloor->bind(7);
 
 
 //! [6]
     // Calculate model view transformation
     QMatrix4x4 matrix;
-    matrix.translate(0.0, 0.0, -30.0);
+    matrix.translate(0.0, 0.0, -25.0);
     //matrix.rotate(90,1,0,0);
     //matrix.rotate(rotation);
     //matrix.scale(QVector3D(scale,scale,scale));

@@ -12,8 +12,8 @@ Weapon::Weapon()
 
 
 
-    height = 0.25f;
-    width = 0.35f;
+    height = 0.35f;
+    width = 0.25f;
 
     updateBoundingBox();
 
@@ -30,8 +30,8 @@ Weapon::Weapon(Transform transform){
 
 
 
-    height = 0.25f;
-    width = 0.35f;
+    height = 0.35f;
+    width = 0.5f;
 
     updateBoundingBox();
 }
@@ -42,14 +42,24 @@ Weapon::Weapon(Transform transform){
  * category = 3 : grenade
  * */
 void Weapon::setType(int type){
-    if(type<1)
+    if(type<1){
         category = 1;
-    else if(type>3)
-        category = 3;
-    else
-        category = type;
+        height = 0.5f;
+        width = 0.35f;
+    }
 
-    //update width/heigth + box (no collision so not urgent)
+    else if(type>3){
+        category = 3;
+        height = 0.2f;
+        width = 0.4f;
+    }
+    else{
+        category = type;
+        height = 0.3f;
+        width = 0.3f;
+    }
+
+    updateBoundingBox();
 }
 
 void Weapon::render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, QMatrix4x4 projection){
@@ -59,7 +69,7 @@ void Weapon::render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, Q
 
     program->setUniformValue("texture", category);
 
-    GeometryEngine *geometries = new GeometryEngine(category); //ajouter constructeurs specifiques worms/objet/map
+    GeometryEngine *geometries = new GeometryEngine(category);
     geometries->drawGeometry(program);
 
 

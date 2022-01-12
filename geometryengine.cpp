@@ -28,8 +28,24 @@ GeometryEngine::GeometryEngine(int type): indexBuf(QOpenGLBuffer::IndexBuffer)
             initLauncherGeometry();
         break;
 
+        case 2:
+            initGrenadeGeometry();
+        break;
+
+        case 3:
+            initShotgunGeometry();
+        break;
+
         case 4:
             initRocketGeometry();
+        break;
+
+        case 5:
+            initGrenadeGeometry();
+        break;
+
+        case 6:
+            initBulletGeometry();
         break;
 
         case 7:
@@ -66,10 +82,52 @@ void GeometryEngine::initWormGeometry(){
 void GeometryEngine::initLauncherGeometry(){
     unsigned int vertexNumber = 4;
     VertexData vertices[] = {
-        {QVector3D( -0.35f,  0.25f,  0.5f), QVector2D(0.0f, 0.0f)},  // v0
-        {QVector3D(  0.35f,  0.25f,  0.5f), QVector2D(1.0f, 0.0f)}, // v1
-        {QVector3D( -0.35f, -0.25f,  0.5f), QVector2D(0.0f, 1.0f)},  // v2
-        {QVector3D(  0.35f, -0.25f,  0.5f), QVector2D(1.0f, 1.0f)}
+        {QVector3D( -0.5f,  0.35f,  0.5f), QVector2D(0.0f, 0.0f)},  // v0
+        {QVector3D(  0.5f,  0.35f,  0.5f), QVector2D(1.0f, 0.0f)}, // v1
+        {QVector3D( -0.5f, -0.35f,  0.5f), QVector2D(0.0f, 1.0f)},  // v2
+        {QVector3D(  0.5f, -0.35f,  0.5f), QVector2D(1.0f, 1.0f)}
+    };
+
+    unsigned int indexCount = 5;
+    GLushort indices[] = {
+        0, 1, 2, 3, 3
+    };
+
+    arrayBuf.bind();
+    arrayBuf.allocate(vertices, vertexNumber * sizeof (VertexData));
+
+    indexBuf.bind();
+    indexBuf.allocate(indices, indexCount * sizeof (GLushort));
+}
+
+void GeometryEngine::initGrenadeGeometry(){
+    unsigned int vertexNumber = 4;
+    VertexData vertices[] = {
+        {QVector3D( -0.30f,  0.30f,  0.5f), QVector2D(0.0f, 0.0f)},  // v0
+        {QVector3D(  0.30f,  0.30f,  0.5f), QVector2D(1.0f, 0.0f)}, // v1
+        {QVector3D( -0.30f, -0.30f,  0.5f), QVector2D(0.0f, 1.0f)},  // v2
+        {QVector3D(  0.30f, -0.30f,  0.5f), QVector2D(1.0f, 1.0f)}
+    };
+
+    unsigned int indexCount = 5;
+    GLushort indices[] = {
+        0, 1, 2, 3, 3
+    };
+
+    arrayBuf.bind();
+    arrayBuf.allocate(vertices, vertexNumber * sizeof (VertexData));
+
+    indexBuf.bind();
+    indexBuf.allocate(indices, indexCount * sizeof (GLushort));
+}
+
+void GeometryEngine::initShotgunGeometry(){
+    unsigned int vertexNumber = 4;
+    VertexData vertices[] = {
+        {QVector3D( -0.40f,  0.20f,  0.5f), QVector2D(0.0f, 0.0f)},  // v0
+        {QVector3D(  0.40f,  0.20f,  0.5f), QVector2D(1.0f, 0.0f)}, // v1
+        {QVector3D( -0.40f, -0.20f,  0.5f), QVector2D(0.0f, 1.0f)},  // v2
+        {QVector3D(  0.40f, -0.20f,  0.5f), QVector2D(1.0f, 1.0f)}
     };
 
     unsigned int indexCount = 5;
@@ -87,10 +145,31 @@ void GeometryEngine::initLauncherGeometry(){
 void GeometryEngine::initRocketGeometry(){
     unsigned int vertexNumber = 4;
     VertexData vertices[] = {
-        {QVector3D( -0.2f,  0.15f,  0.5f), QVector2D(0.0f, 0.0f)},  // v0
-        {QVector3D(  0.2f,  0.15f,  0.5f), QVector2D(1.0f, 0.0f)}, // v1
-        {QVector3D( -0.2f, -0.15f,  0.5f), QVector2D(0.0f, 1.0f)},  // v2
-        {QVector3D(  0.2f, -0.15f,  0.5f), QVector2D(1.0f, 1.0f)}
+        {QVector3D( -0.3f,  0.2f,  0.5f), QVector2D(0.0f, 0.0f)},  // v0
+        {QVector3D(  0.3f,  0.2f,  0.5f), QVector2D(1.0f, 0.0f)}, // v1
+        {QVector3D( -0.3f, -0.2f,  0.5f), QVector2D(0.0f, 1.0f)},  // v2
+        {QVector3D(  0.3f, -0.2f,  0.5f), QVector2D(1.0f, 1.0f)}
+    };
+
+    unsigned int indexCount = 5;
+    GLushort indices[] = {
+        0, 1, 2, 3, 3
+    };
+
+    arrayBuf.bind();
+    arrayBuf.allocate(vertices, vertexNumber * sizeof (VertexData));
+
+    indexBuf.bind();
+    indexBuf.allocate(indices, indexCount * sizeof (GLushort));
+}
+
+void GeometryEngine::initBulletGeometry(){
+    unsigned int vertexNumber = 4;
+    VertexData vertices[] = {
+        {QVector3D( -0.1f,  0.05f,  0.5f), QVector2D(0.0f, 0.0f)},  // v0
+        {QVector3D(  0.1f,  0.05f,  0.5f), QVector2D(1.0f, 0.0f)}, // v1
+        {QVector3D( -0.1f, -0.05f,  0.5f), QVector2D(0.0f, 1.0f)},  // v2
+        {QVector3D(  0.1f, -0.05f,  0.5f), QVector2D(1.0f, 1.0f)}
     };
 
     unsigned int indexCount = 5;
