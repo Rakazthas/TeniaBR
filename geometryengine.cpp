@@ -52,6 +52,10 @@ GeometryEngine::GeometryEngine(int type): indexBuf(QOpenGLBuffer::IndexBuffer)
             initFloorGeometry();
         break;
 
+        case 8:
+            initSkyGeometry();
+        break;
+
         default:
         break;
     }
@@ -205,7 +209,26 @@ void GeometryEngine::initFloorGeometry(){
     indexBuf.allocate(indices, indexCount * sizeof (GLushort));
 }
 
+void GeometryEngine::initSkyGeometry(){
+    unsigned int vertexNumber = 4;
+    VertexData vertices[] = {
+        {QVector3D(-120.0f,  30.0f,  -1.0f), QVector2D(0.0f, 0.0f)},  // v0
+        {QVector3D( 120.0f,  30.0f,  -1.0f), QVector2D(1.0f, 0.0f)}, // v1
+        {QVector3D(-120.0f, -30.0f,  -1.0f), QVector2D(0.0f, 1.0f)},  // v2
+        {QVector3D( 120.0f, -30.0f,  -1.0f), QVector2D(1.0f, 1.0f)}
+    };
 
+    unsigned int indexCount = 5;
+    GLushort indices[] = {
+        0, 1, 2, 3, 3
+    };
+
+    arrayBuf.bind();
+    arrayBuf.allocate(vertices, vertexNumber * sizeof (VertexData));
+
+    indexBuf.bind();
+    indexBuf.allocate(indices, indexCount * sizeof (GLushort));
+}
 
 
 void GeometryEngine::drawGeometry(QOpenGLShaderProgram *program){

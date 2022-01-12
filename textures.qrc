@@ -7,5 +7,6 @@
 				<file>small_bullet.png</file>
 				<file>grenade.png</file>
 				<file>shotgun.png</file>
+				<file>skybox.png</file>
     </qresource>
 </RCC>

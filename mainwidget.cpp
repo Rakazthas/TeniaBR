@@ -18,6 +18,7 @@ MainWidget::MainWidget(QWidget *parent) :
     textureRocket(0),
     textureBullet(0),
     textureFloor(0),
+    textureSky(0),
     angularSpeed(0)
 {
     objects = std::vector<GameObject*>();
@@ -67,6 +68,7 @@ MainWidget::~MainWidget()
     delete textureRocket;
     delete textureBullet;
     delete textureFloor;
+    delete textureSky;
     doneCurrent();
 }
 
@@ -299,6 +301,11 @@ void MainWidget::initTextures()
     textureFloor->setMinificationFilter(QOpenGLTexture::Nearest);
     textureFloor->setMagnificationFilter(QOpenGLTexture::Linear);
     textureFloor->setWrapMode(QOpenGLTexture::ClampToEdge);
+
+    textureSky = new QOpenGLTexture(QImage(":/skybox.png"));
+    textureSky->setMinificationFilter(QOpenGLTexture::Nearest);
+    textureSky->setMagnificationFilter(QOpenGLTexture::Linear);
+    textureSky->setWrapMode(QOpenGLTexture::ClampToEdge);
 }
 //! [4]
 
@@ -332,6 +339,7 @@ void MainWidget::paintGL()
     textureGrenade->bind(5);
     textureBullet->bind(6);
     textureFloor->bind(7);
+    textureSky->bind(8);
 
 
 //! [6]
@@ -348,6 +356,9 @@ void MainWidget::paintGL()
     program.setUniformValue("texture", 7);
     geometries->drawGeometry(&program);
 
+    geometries = new GeometryEngine(8);
+    program.setUniformValue("texture", 8);
+    geometries->drawGeometry(&program);
 
 
     // Set modelview-projection matrix

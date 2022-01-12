@@ -20,6 +20,7 @@ private:
     void initRocketGeometry();
     void initBulletGeometry();
     void initFloorGeometry();
+    void initSkyGeometry();
 
     QOpenGLBuffer arrayBuf;
     QOpenGLBuffer indexBuf;

@@ -57,7 +57,6 @@
 #include "weapon.h"
 #include "projectile.h"
 #include "transform.h"
-#include "map.h"
 
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
@@ -105,6 +104,7 @@ private:
     QOpenGLTexture *textureRocket;
     QOpenGLTexture *textureBullet;
     QOpenGLTexture *textureFloor;
+    QOpenGLTexture *textureSky;
 
     QMatrix4x4 projection;
 
