@@ -10,12 +10,12 @@ class GeometryEngine : protected QOpenGLFunctions
 public:
     GeometryEngine(int type);
 
-    void drawWormGeometry(QOpenGLShaderProgram *program);
-    void drawLauncherGeometry(QOpenGLShaderProgram *program);
+    void drawGeometry(QOpenGLShaderProgram *program);
 
 private:
     void initWormGeometry();
     void initLauncherGeometry();
+    void initFloorGeometry();
 
     QOpenGLBuffer arrayBuf;
     QOpenGLBuffer indexBuf;

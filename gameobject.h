@@ -26,6 +26,9 @@ public:
     float getElasticity();
     bool testLink();
     QVector2D getPos();
+    QVector2D getMovement();
+    float getHeight();
+    float getWidth();
 
     //setter
     void setParent(GameObject* newParent);
@@ -42,10 +45,13 @@ public:
     void updateBoundingBox();
     void updateBoundingBox(QMatrix4x4 worldTransform);
 
+    void setMovement(QVector2D move);
+
     QMatrix4x4 getWorldTransform();
 
 
     void applyMovement(float time);
+    void handleCollision(GameObject *collider);
 
 
 

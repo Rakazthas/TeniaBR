@@ -13,12 +13,14 @@ MainWidget::MainWidget(QWidget *parent) :
     geometries(0),
     textureWorm(0),
     textureLauncher(0),
+    textureFloor(0),
     angularSpeed(0)
 {
     objects = std::vector<GameObject*>();
 
     Transform worm1Transform = Transform();
     worm1Transform.setTranslation(QVector3D(2.0,0.0,0.0));
+    worm1Transform.setScale(QVector3D(-1.0,1.0,1.0));
 
     Transform worm2Transform = Transform();
     worm2Transform.setTranslation(QVector3D(-3.0, 1.0,0.0));
@@ -36,6 +38,12 @@ MainWidget::MainWidget(QWidget *parent) :
     objects.push_back(worm3);
 
     currWorm = objects[0];
+
+    Transform weaponTransform = Transform();
+    Weapon *wormWeapon = new Weapon(weaponTransform);
+
+    currWorm->addChild(wormWeapon);
+    currWeapon = wormWeapon;
 }
 
 MainWidget::~MainWidget()
@@ -45,17 +53,31 @@ MainWidget::~MainWidget()
     makeCurrent();
     delete textureWorm;
     delete textureLauncher;
-    delete geometries;
+    delete textureFloor;
     doneCurrent();
 }
 
 
 void MainWidget::keyPressEvent(QKeyEvent *e){
+    switch(e->key()){
+        case Qt::Key_Right:
+            currWorm->setMovement(QVector2D(10, currWorm->getMovement().y()));
+        break;
 
+        case Qt::Key_Left:
+            currWorm->setMovement(QVector2D(-10, currWorm->getMovement().y()));
+        break;
+
+        case Qt::Key_Space:
+            currWorm->setMovement(QVector2D(currWorm->getMovement().x(),60));
+        break;
+
+        default:
+        break;
+    }
 }
 
 void MainWidget::keyReleaseEvent(QKeyEvent *){
-
 }
 
 
@@ -64,6 +86,7 @@ void MainWidget::keyReleaseEvent(QKeyEvent *){
 //! [1]
 void MainWidget::timerEvent(QTimerEvent *)
 {
+    //applique mouvement + verif si hors sol
     for(unsigned int i = 0; i < objects.size(); i++){
         objects[i]->applyMovement(deltaT);
 
@@ -74,9 +97,9 @@ void MainWidget::timerEvent(QTimerEvent *)
         if(downBox.y()<0){
             objects[i]->setPos(QVector2D(pos.x(), pos.y()+(-downBox.y())));
         }
-
     }
 
+    //verifie et gere collisions
     for(unsigned int i = 0; i < objects.size(); i++){
         QVector2D downBoxI, upBoxI;
         objects[i]->getBoundingBox(&upBoxI, &downBoxI);
@@ -85,17 +108,29 @@ void MainWidget::timerEvent(QTimerEvent *)
             QVector2D downBoxJ, upBoxJ;
             objects[j]->getBoundingBox(&upBoxJ, &downBoxJ);
 
-            if(downBoxI.x()-upBoxJ.x()<=0 &&
+            if(     downBoxI.x()-upBoxJ.x()<=0 &&
                     downBoxI.y()-upBoxJ.y()<=0&&
                     downBoxJ.x()-upBoxI.x()<=0&&
                     downBoxJ.y()-upBoxI.y()<=0){
                 //collision
-                qWarning() << "Collision entre " << i << "et" << j;
+                //qWarning() << "Collision entre " << i << "et" << j;
+                objects[i]->handleCollision(objects[j]);
+                objects[j]->handleCollision(objects[i]);
             }else{
-                qWarning() << "Pas de collision entre " << i << "et" << j;
+                //qWarning() << "Pas de collision entre " << i << "et" << j;
             }
         }
     }
+
+    QVector2D p = QVector2D(QCursor::pos());
+
+    //float angle = acos(p.x()/(sqrt(pow(p.x(),2)+pow(p.y(),2))));
+    float angle = atan2(p.y(), p.x());
+
+    Transform newTrans = currWeapon->getTransform();
+    newTrans.setRotationAngAxis(angle, QVector3D(0,0,1));
+    currWeapon->setTransform(newTrans);
+
     update();
 }
 //! [1]
@@ -167,6 +202,11 @@ void MainWidget::initTextures()
     textureLauncher->setMinificationFilter(QOpenGLTexture::Nearest);
     textureLauncher->setMagnificationFilter(QOpenGLTexture::Linear);
     textureLauncher->setWrapMode(QOpenGLTexture::ClampToEdge);
+
+    textureFloor = new QOpenGLTexture(QImage(":/floor.png"));
+    textureFloor->setMinificationFilter(QOpenGLTexture::Nearest);
+    textureFloor->setMagnificationFilter(QOpenGLTexture::Linear);
+    textureFloor->setWrapMode(QOpenGLTexture::ClampToEdge);
 }
 //! [4]
 
@@ -177,7 +217,7 @@ void MainWidget::resizeGL(int w, int h)
     qreal aspect = qreal(w) / qreal(h ? h : 1);
 
     // Set near plane to 3.0, far plane to 7.0, field of view 45 degrees
-    const qreal zNear = 2.0, zFar = 40.0, fov = 45.0;
+    const qreal zNear = 2.0, zFar = 60.0, fov = 45.0;
 
     // Reset projection
     projection.setToIdentity();
@@ -194,23 +234,28 @@ void MainWidget::paintGL()
 
     textureWorm->bind(0);
     textureLauncher->bind(1);
+    textureFloor->bind(7);
 
 
 //! [6]
     // Calculate model view transformation
     QMatrix4x4 matrix;
-    matrix.translate(0.0, 0.0, -20.0);
+    matrix.translate(0.0, 0.0, -10.0);
     //matrix.rotate(90,1,0,0);
     //matrix.rotate(rotation);
     matrix.scale(QVector3D(scale,scale,scale));
+
+
+    geometries = new GeometryEngine(7);
+    program.setUniformValue("texture", 7);
+    geometries->drawGeometry(&program);
+
 
 
     // Set modelview-projection matrix
     //program.setUniformValue("mvp_matrix", projection * matrix);
 //! [6]
 
-    // Use texture unit 0 which contains cube.png
-    program.setUniformValue("texture", 1);
 
 
     for(unsigned int i = 0; i < objects.size(); i++){

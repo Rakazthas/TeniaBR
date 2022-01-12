@@ -36,6 +36,11 @@ Weapon::Weapon(Transform transform){
     updateBoundingBox();
 }
 
+/*
+ * category = 1 : bazooka
+ * category = 2 : shotgun
+ * category = 3 : grenade
+ * */
 void Weapon::setType(int type){
     if(type<1)
         category = 1;
@@ -55,9 +60,8 @@ void Weapon::render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, Q
     program->setUniformValue("texture", category);
 
     GeometryEngine *geometries = new GeometryEngine(category); //ajouter constructeurs specifiques worms/objet/map
-    geometries->drawWormGeometry(program);
+    geometries->drawGeometry(program);
 
-    updateBoundingBox(newTransform);
 
     for(unsigned int i = 0; i < children.size(); i++){
         children[i]->render(newTransform, program, projection);

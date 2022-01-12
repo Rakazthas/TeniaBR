@@ -25,8 +25,8 @@ Worm::Worm(Transform transform)
 
     this->transform = transform;
 
-    height = 0.5;
-    width = 0.5;
+    height = 1;
+    width = 1;
 
     hp = 20;
 
@@ -40,6 +40,10 @@ void Worm::setHp(int newHP){
     hp = newHP;
 }
 
+
+/*
+ * render ver
+ * */
 void Worm::render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, QMatrix4x4 projection){
     //Transform newTransform = transform.combineTransforms(globalTransform);
     QMatrix4x4 newTransform = globalTransform * transform.getTransform();
@@ -48,9 +52,7 @@ void Worm::render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, QMa
     program->setUniformValue("texture", category);
 
     GeometryEngine *geometries = new GeometryEngine(category); //ajouter constructeurs specifiques worms/objet/map
-    geometries->drawWormGeometry(program);
-
-    updateBoundingBox(newTransform);
+    geometries->drawGeometry(program);
 
     for(unsigned int i = 0; i < children.size(); i++){
         children[i]->render(newTransform, program, projection);

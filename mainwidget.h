@@ -105,6 +105,7 @@ private:
     QOpenGLTexture *textureRocket;
     QOpenGLTexture *textureBullet;
     QOpenGLTexture *textureGrenadeT;
+    QOpenGLTexture *textureFloor;
 
     QMatrix4x4 projection;
 
@@ -115,6 +116,7 @@ private:
 
     std::vector<GameObject*> objects;
     GameObject *currWorm;
+    GameObject *currWeapon;
 
 
     float scale = 1;
