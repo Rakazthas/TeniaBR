@@ -29,6 +29,7 @@ public:
     QVector2D getMovement();
     float getHeight();
     float getWidth();
+    int getType();
 
     //setter
     void setParent(GameObject* newParent);

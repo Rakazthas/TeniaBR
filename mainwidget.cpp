@@ -122,6 +122,15 @@ void MainWidget::mousePressEvent(QMouseEvent *e){
             initTransform.setScale(QVector3D(-1,1,1));
 
         Projectile *proj = new Projectile(initTransform);
+        if(currWeapon->getType()==1){
+            proj->setType(4);
+        }
+        if(currWeapon->getType()==2){
+            proj->setType(5);
+        }
+        if(currWeapon->getType()==3){
+            proj->setType(6);
+        }
         currProj = proj;
         currProj->setMovement(initDir/10);
 

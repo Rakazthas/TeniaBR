@@ -23,6 +23,7 @@ QVector2D GameObject::getPos(){return worldPosition;}
 QVector2D GameObject::getMovement(){return movement;}
 float GameObject::getHeight(){return height;}
 float GameObject::getWidth(){return width;}
+int GameObject::getType(){return category;}
 
 void GameObject::getBoundingBox(QVector2D *upRight, QVector2D *downLeft){
     *upRight = AABB[1];
