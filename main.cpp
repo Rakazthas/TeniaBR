@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     format.setDepthBufferSize(24);
     QSurfaceFormat::setDefaultFormat(format);
 
-    app.setApplicationName("Graphe de scene");
+    app.setApplicationName("Tenia");
     app.setApplicationVersion("0.1");
 #ifndef QT_NO_OPENGL
     MainWidget widget;

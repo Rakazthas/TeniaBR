@@ -40,6 +40,9 @@ void Worm::setHp(int newHP){
     hp = newHP;
 }
 
+bool Worm::needDestroy(){
+    return hp<1;
+}
 
 /*
  * render ver

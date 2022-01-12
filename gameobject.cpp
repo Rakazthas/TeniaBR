@@ -170,7 +170,7 @@ void GameObject::handleCollision(GameObject *collider){
     float diffY = worldPosition.y()-collPos.y();
     if(diffY > (collider->getHeight()*1/2) && (diffX<(collider->getWidth()*1/2)||diffX>(collider->getWidth()*-1/2))){
         worldPosition = QVector2D(worldPosition.x(), worldPosition.y()+abs(AABB[0].y()-collUp.y()));
-    }else{
+    }else if(diffY > -(height*1/2)){
         float weightRatio = collider->getWeight()/(weight+collider->getWeight());//le plus leger recule plus
         if(diffX<0)
             worldPosition = QVector2D(worldPosition.x()-weightRatio*abs(AABB[1].x()-collDown.x()), worldPosition.y());
@@ -184,6 +184,9 @@ void GameObject::handleCollision(GameObject *collider){
     updateBoundingBox();
 }
 
+bool GameObject::needDestroy(){
+    return false;
+}
 /*
  *
  * render d'un gameObject generique : appelle juste le render des enfants

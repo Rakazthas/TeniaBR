@@ -53,6 +53,8 @@ public:
     void applyMovement(float time);
     void handleCollision(GameObject *collider);
 
+    virtual bool needDestroy();
+
 
 
     virtual void render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, QMatrix4x4 projection);

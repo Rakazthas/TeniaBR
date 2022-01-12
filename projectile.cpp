@@ -4,7 +4,7 @@ Projectile::Projectile()
 {
     category = 4;
 
-    weight = 0;
+    weight = 0.1;
     elasticity = 0;
 
     transform = Transform();
@@ -23,7 +23,7 @@ Projectile::Projectile()
 Projectile::Projectile(Transform transform){
     category = 4;
 
-    weight = 0;
+    weight = 0.1;
     elasticity = 0;
 
     this->transform = transform;
@@ -58,4 +58,30 @@ void Projectile::setType(int type){
         category = type;
 
     //TODO update size/box/dmg
+}
+
+void Projectile::handleCollision(GameObject *collider){
+    if(category == 4 || category == 5)
+        boom = true;
+    else
+        GameObject::handleCollision(collider);
+}
+
+bool Projectile::needDestroy(){
+    return boom;
+}
+
+void Projectile::render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, QMatrix4x4 projection){
+    //Transform newTransform = transform.combineTransforms(globalTransform);
+    QMatrix4x4 newTransform = globalTransform * transform.getTransform();
+    program->setUniformValue("mvp_matrix", projection * newTransform);
+
+    program->setUniformValue("texture", category);
+
+    GeometryEngine *geometries = new GeometryEngine(category); //ajouter constructeurs specifiques worms/objet/map
+    geometries->drawGeometry(program);
+
+    for(unsigned int i = 0; i < children.size(); i++){
+        children[i]->render(newTransform, program, projection);
+    }
 }

@@ -44,6 +44,11 @@ MainWidget::MainWidget(QWidget *parent) :
 
     currWorm->addChild(wormWeapon);
     currWeapon = wormWeapon;
+
+    currProj = nullptr;
+
+
+    QWidget::setMouseTracking(true);
 }
 
 MainWidget::~MainWidget()
@@ -80,6 +85,31 @@ void MainWidget::keyPressEvent(QKeyEvent *e){
 void MainWidget::keyReleaseEvent(QKeyEvent *){
 }
 
+void MainWidget::mouseMoveEvent(QMouseEvent *event){
+    mousePos = QVector2D(event->localPos());
+}
+
+void MainWidget::mousePressEvent(QMouseEvent *e){
+    if(currProj != nullptr){
+        QVector2D initPos = currWorm->getPos();
+        QVector2D initDir = QVector2D(e->localPos())-initPos;
+
+        Transform initTransform = Transform();
+        initTransform.setTranslation(QVector3D(initPos.x() + 1.2*(initDir.x()/abs(initDir.x())),
+                                               initPos.y() + 1.2*(initDir.y()/abs(initDir.y())),
+                                               0));
+        if(initDir.x()<0)
+            initTransform.setScale(QVector3D(-1,1,1));
+
+        Projectile *proj = new Projectile(initTransform);
+        currProj = proj;
+        currProj->setMovement(initDir);
+
+        objects.push_back(proj);
+
+    }
+}
+
 
 //! [0]
 
@@ -113,19 +143,35 @@ void MainWidget::timerEvent(QTimerEvent *)
                     downBoxJ.x()-upBoxI.x()<=0&&
                     downBoxJ.y()-upBoxI.y()<=0){
                 //collision
-                //qWarning() << "Collision entre " << i << "et" << j;
                 objects[i]->handleCollision(objects[j]);
                 objects[j]->handleCollision(objects[i]);
-            }else{
-                //qWarning() << "Pas de collision entre " << i << "et" << j;
             }
-        }
+         }
     }
 
-    QVector2D p = QVector2D(QCursor::pos());
+    /*for(unsigned int i = objects.size() - 1; i >= 0; i--){
+        if(objects[i]->needDestroy()){
+            //destruction
+            if(typeid (objects[i]) == typeid (Projectile)){
+                //handle boom
+            }
+            //call destroychildren
+            if(objects[i] == currWorm)
+                currWorm = nullptr;
+            if(objects[i] == currProj)
+                currProj = nullptr;
 
-    //float angle = acos(p.x()/(sqrt(pow(p.x(),2)+pow(p.y(),2))));
-    float angle = atan2(p.y(), p.x());
+            delete objects[i];
+            objects.erase(objects.begin()+i);
+        }
+    }*/
+
+    QVector2D direction = mousePos-currWorm->getPos();
+    QVector2D ref = QVector2D(1,0);
+
+    //float angle = atan2(direction.y(), direction.x());
+    float angle = acos(QVector2D::dotProduct(direction, ref)/(direction.length()*ref.length()));
+    angle *= 180.0/M_PI;
 
     Transform newTrans = currWeapon->getTransform();
     newTrans.setRotationAngAxis(angle, QVector3D(0,0,1));
@@ -240,13 +286,14 @@ void MainWidget::paintGL()
 //! [6]
     // Calculate model view transformation
     QMatrix4x4 matrix;
-    matrix.translate(0.0, 0.0, -10.0);
+    matrix.translate(0.0, 0.0, -30.0);
     //matrix.rotate(90,1,0,0);
     //matrix.rotate(rotation);
-    matrix.scale(QVector3D(scale,scale,scale));
+    //matrix.scale(QVector3D(scale,scale,scale));
 
 
     geometries = new GeometryEngine(7);
+    program.setUniformValue("mvp_matrix", projection * matrix);
     program.setUniformValue("texture", 7);
     geometries->drawGeometry(&program);
 

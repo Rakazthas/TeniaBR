@@ -18,9 +18,16 @@ public:
 
     void setType(int type);
 
+    void handleCollision(GameObject *collider);
+
+    virtual bool needDestroy();
+
+    virtual void render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, QMatrix4x4 projection);
+
 private:
     int damage;
     float dmgRadius;
+    bool boom = false;
 
 
 };

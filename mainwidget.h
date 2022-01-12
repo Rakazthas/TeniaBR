@@ -79,10 +79,10 @@ public:
     ~MainWidget();
 
 protected:
-    //void mousePressEvent(QMouseEvent *e) override;
-    //void mouseReleaseEvent(QMouseEvent *e) override;
     void keyPressEvent(QKeyEvent *e) override;
     void keyReleaseEvent(QKeyEvent *e) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *e) override;
     void timerEvent(QTimerEvent *e) override;
 
     void initializeGL() override;
@@ -114,9 +114,12 @@ private:
     qreal angularSpeed;
     QQuaternion rotation;
 
+    QVector2D mousePos;
+
     std::vector<GameObject*> objects;
     GameObject *currWorm;
     GameObject *currWeapon;
+    GameObject *currProj;
 
 
     float scale = 1;
