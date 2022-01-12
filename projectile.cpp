@@ -53,16 +53,19 @@ void Projectile::setType(int type){
         category = 4;
         height = 0.2;
         width = 0.3;
+        weight = 0.1;
     }
     else if(type>6){
         category = 6;
         height = 0.3;
         width = 0.3;
+        weight = 0.5;
     }
     else{
         category = type;
         height = 0.05;
         width = 0.1;
+        weight = 0.05;
     }
 
     updateBoundingBox();
