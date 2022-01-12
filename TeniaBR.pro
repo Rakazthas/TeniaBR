@@ -13,7 +13,6 @@ SOURCES += \
     geometryengine.cpp \
     main.cpp \
     mainwidget.cpp \
-    map.cpp \
     projectile.cpp \
     transform.cpp \
     weapon.cpp \
@@ -23,7 +22,6 @@ HEADERS += \
     gameobject.h \
     geometryengine.h \
     mainwidget.h \
-    map.h \
     projectile.h \
     transform.h \
     weapon.h \

@@ -110,7 +110,6 @@ void MainWidget::mouseMoveEvent(QMouseEvent *event){
 }
 
 void MainWidget::mousePressEvent(QMouseEvent *e){
-    if(currProj == nullptr){
         QVector2D initPos = currWorm->getPos();
         QVector2D initDir = QVector2D(e->localPos())-initPos;
 
@@ -136,7 +135,6 @@ void MainWidget::mousePressEvent(QMouseEvent *e){
 
         objects.push_back(proj);
 
-    }
 }
 
 
