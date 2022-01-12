@@ -16,7 +16,7 @@ public:
     void setDamage(int newDmg);
     void setDmgRadius(float newRadius);
 
-    void setType(int type);
+    virtual void setType(int type);
 
     void handleCollision(GameObject *collider);
 

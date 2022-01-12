@@ -10,7 +10,7 @@ public:
     Weapon();
     Weapon(Transform transform);
 
-    void setType(int type);
+    virtual void setType(int type);
 
     virtual void render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, QMatrix4x4 projection);
 

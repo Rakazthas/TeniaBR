@@ -54,7 +54,7 @@ public:
     void handleCollision(GameObject *collider);
 
     virtual bool needDestroy();
-
+    virtual void setType(int type);
 
 
     virtual void render(QMatrix4x4 globalTransform, QOpenGLShaderProgram* program, QMatrix4x4 projection);

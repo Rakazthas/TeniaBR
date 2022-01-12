@@ -85,6 +85,18 @@ void MainWidget::keyPressEvent(QKeyEvent *e){
             currWorm->setMovement(QVector2D(currWorm->getMovement().x(),60));
         break;
 
+        case Qt::Key_1:
+            currWeapon->setType(1);
+        break;
+
+        case Qt::Key_2:
+            currWeapon->setType(2);
+        break;
+
+        case Qt::Key_3:
+            currWeapon->setType(3);
+        break;
+
         default:
         break;
     }

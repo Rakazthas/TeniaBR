@@ -187,6 +187,10 @@ void GameObject::handleCollision(GameObject *collider){
 bool GameObject::needDestroy(){
     return false;
 }
+
+void GameObject::setType(int type){
+
+}
 /*
  *
  * render d'un gameObject generique : appelle juste le render des enfants
